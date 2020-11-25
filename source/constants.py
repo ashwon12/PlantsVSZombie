@@ -130,6 +130,26 @@ CARD_ICESHROOM = 'card_iceshroom' # /resources/graphics/Cards/
 CARD_HYPNOSHROOM = 'card_hypnoshroom' # /resources/graphics/Cards/
 CARD_REDWALLNUT = 'card_redwallnut' # /resources/graphics/Cards/ +'_move'
 
+# CARD_PLANT_MAN
+MAN_SUNFLOWER = '빛을 얻을 수 있는 보조형 식물, 낮에 사용가능'
+MAN_PEASHOOTER = '원거리 공격형 식물, 단발 콩슈터'
+MAN_SNOWPEASHOOTER = '원거리 공격형 식물, 좀비의 속도를 늦춘다.'
+MAN_WALLNUT = '방어형 식물, 좀비의 공격을 방어한다.'
+MAN_CHERRYBOMB = '근거리 폭발형 식물, 가장 큰 폭발력을 가졌다.'
+MAN_THREEPEASHOOTER = '원거리 공격형 식물, 3단 콩슈터'
+MAN_REPEATERPEA = '원거리 공격형 식물, 2단 콩슈터'
+MAN_CHOMPER = '근거리 공격형 식물, 2칸 앞 좀비 즉사 공격한다.'
+MAN_PUFFSHROOM = '근거리 야행성 식물, 낮일땐 공격하지 않는다'
+MAN_POTATOMINE = '일회성 폭발형 식물, 설치에 시간이 걸리는 단점이 있다.'
+MAN_SQUASH = '근거리 공격형 식물, 앞 뒤 최대 2의 거리로 공격을 한다'
+MAN_SPIKEWEED = '근거리 공격형 식불, 자신의 위를 지나가는 좀비를 공격한다.'
+MAN_JALAPENO = '폭발형 식물'
+MAN_SCAREDYSHROOM = '원거리 야행성 식물, 낮에는 공격을 하지 않는다.'
+MAN_SUNSHROOM = '빛을 얻을 수 있는 보조형 식물, 밤에 사용가능'
+MAN_ICESHROOM = '공격력은 미비하지만 모든 좀비의 움직이을 멈춰준다.'
+MAN_HYPNOSHROOM = '방어형 식물, 자신을 죽인 좀비를 사용자의 편으로 만들어준다.'
+MAN_REDWALLNUT = '방어형 식물, 좀비의 공격을 방어한다.'
+
 #BULLET INFO (+Explode 2개)
 BULLET_PEA = 'PeaNormal' # /resources/graphics/Bullets/
 BULLET_PEA_ICE = 'PeaIce' # /resources/graphics/Bullets/
@@ -178,3 +198,4 @@ PLAY = 'play'
 #BACKGROUND
 BACKGROUND_DAY = 0
 BACKGROUND_NIGHT = 1
+
