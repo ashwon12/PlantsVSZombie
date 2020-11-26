@@ -34,8 +34,7 @@ class Control():
         self.done = False
         self.clock = pg.time.Clock()  # 게임 루프의 주기를 결정할 객체
         self.fps = 60  # 프레임 설정
-        # self.dt = self.clock.tick(self.fps)  # 지연시간
-        # self.onoff = 1  # 1 = 기본, 0 = 배속
+        self.onoff = 1  # 1 = 기본, 0 = 배속
         self.keys = pg.key.get_pressed()
         self.mouse_pos = None
         self.mouse_click = [False, False]  # value:[left mouse click, right mouse click]
@@ -79,27 +78,28 @@ class Control():
                 self.mouse_pos = pg.mouse.get_pos()
                 self.mouse_click[0], _, self.mouse_click[1] = pg.mouse.get_pressed()
                 print('pos:', self.mouse_pos, ' mouse:', self.mouse_click)
-    #             self.speed_switch()  # 속도 조절 함수
-    #
-    # # 기능 추가중
-    # def speed_switch(self):
-    #     self.mouse_pos = pg.mouse.get_pos()
-    #     if self.mouse_pos[0] > 30 and self.mouse_pos[0] < 70 and self.mouse_pos[1] > 15 and self.mouse_pos[1] < 50:
-    #         self.onoff = 0  # -> self.onoff = 0 배속
-    #         print("현재 self.onoff: ", self.onoff, " -> 배속중")
-    #         return self.onoff
-    #     else:
-    #         self.onoff = 1  # -> self.onoff = 1 기본속도
-    #         print("현재 self.onoff: ", self.onoff, " -> 기본속도")
-    #         return self.onoff
+                self.speed_switch()  # 속도 조절 함수
+    
+    # 기능 추가중
+    def speed_switch(self):
+        self.mouse_pos = pg.mouse.get_pos()
+        self.con = self.mouse_pos[0] > 540 and self.mouse_pos[0] < 600 and self.mouse_pos[1] > 10 and self.mouse_pos[1] < 75 # 배속조건
+        if(self.con):
+            self.onoff = 0  # -> self.onoff = 0 배속
+            #print("배속중")
+            return self.onoff
+        else:
+            self.onoff = 1  # -> self.onoff = 1 기본속도
+            #print("기본속도")
+            return self.onoff
 
     def main(self):
         while not self.done:
             self.event_loop()
             self.update()
             pg.display.update()
-            self.clock.tick(self.fps)
-            # print("dt: {0}, fps: {1}".format(self.dt, self.clock.get_fps()))
+            self.clock.tick(self.fps) # 목표 프레임을 정함: 60
+            #print(self.clock.get_fps())
         print('game over')
 
 

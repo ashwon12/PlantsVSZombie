@@ -83,13 +83,20 @@ class Bullet(pg.sprite.Sprite):
         
         self.frames = self.fly_frames
 
-    def update(self, game_info): # self.state 의 상태는 C.FLY 가 초기화, setExplode를 통해 c.EXPLODE 로 변경
+    def update(self, game_info): # self.state 의 상태는 c.FLY 가 초기화, setExplode를 통해 c.EXPLODE 로 변경
         self.current_time = game_info[c.CURRENT_TIME]
         if self.state == c.FLY:
             if self.rect.y != self.dest_y:
                 self.rect.y += self.y_vel
                 if self.y_vel * (self.dest_y - self.rect.y) < 0:
                     self.rect.y = self.dest_y
+            # 총알 거리 조절
+            control = tool.Control()
+            self.onoff = control.speed_switch()
+            if(self.onoff == 1):
+                self.x_vel = 4 # 기본
+            elif(self.onoff == 0):
+                self.x_vel = 8 # 기본 거리에서 2배만큼 더 날아가게 한다
             self.rect.x += self.x_vel # x_vel 만큼 더 해서 그림. 
             if self.rect.x > c.SCREEN_WIDTH: # 그리던 화면(bullet)이 전체 화면을 넘어가면 사라진다
                 self.kill() 
@@ -233,6 +240,13 @@ class Sun(Plant):
         self.die_timer = 0
 
     def handleState(self):
+        #해 떨어지는 속도 조절
+        control = tool.Control()
+        self.onoff = control.speed_switch()
+        if(self.onoff == 1):
+            self.move_speed = 1
+        elif(self.onoff == 0):
+            self.move_speed = 5 # 속도를 +2만큼 올림
         if self.rect.centerx != self.dest_x:
             self.rect.centerx += self.move_speed if self.rect.centerx < self.dest_x else -self.move_speed
         if self.rect.bottom != self.dest_y:
@@ -267,14 +281,14 @@ class SunFlower(Plant):
         elif (self.current_time - self.sun_timer) > c.FLOWER_SUN_INTERVAL:
             self.sun_group.add(Sun(self.rect.centerx, self.rect.bottom, self.rect.right, self.rect.bottom + self.rect.h // 2))
             self.sun_timer = self.current_time
-
+# 공격 속도를 조절
 class PeaShooter(Plant):
     def __init__(self, x, y, bullet_group):
         Plant.__init__(self, x, y, c.PEASHOOTER, c.PLANT_HEALTH, bullet_group)
         self.shoot_timer = 0
-        
+
     def attacking(self):
-        if (self.current_time - self.shoot_timer) > 2000:
+        if (self.current_time - self.shoot_timer) > pea_speed().getpadSpeed(): # 총알 사이의 간격을 조절
             self.bullet_group.add(Bullet(self.rect.right, self.rect.y, self.rect.y,
                                     c.BULLET_PEA, c.BULLET_DAMAGE_NORMAL, False))
             self.shoot_timer = self.current_time
@@ -285,7 +299,7 @@ class RepeaterPea(Plant):
         self.shoot_timer = 0
 
     def attacking(self):
-        if (self.current_time - self.shoot_timer) > 2000:
+        if (self.current_time - self.shoot_timer) > pea_speed().getpadSpeed():
             self.bullet_group.add(Bullet(self.rect.right, self.rect.y, self.rect.y,
                                     c.BULLET_PEA, c.BULLET_DAMAGE_NORMAL, False))
             self.bullet_group.add(Bullet(self.rect.right + 40, self.rect.y, self.rect.y,
@@ -300,7 +314,7 @@ class ThreePeaShooter(Plant):
         self.bullet_groups = bullet_groups
 
     def attacking(self):
-        if (self.current_time - self.shoot_timer) > 2000:
+        if (self.current_time - self.shoot_timer) > pea_speed().getpadSpeed():
             offset_y = 9 # modify bullet in the same y position with bullets of other plants
             for i in range(3):
                 tmp_y = self.map_y + (i - 1)
@@ -317,7 +331,7 @@ class SnowPeaShooter(Plant):
         self.shoot_timer = 0
 
     def attacking(self):
-        if (self.current_time - self.shoot_timer) > 2000:
+        if (self.current_time - self.shoot_timer) > pea_speed().getpadSpeed():
             self.bullet_group.add(Bullet(self.rect.right, self.rect.y, self.rect.y,
                                     c.BULLET_PEA_ICE, c.BULLET_DAMAGE_NORMAL, True))
             self.shoot_timer = self.current_time
@@ -609,7 +623,7 @@ class Spikeweed(Plant):
         self.state = c.ATTACK
 
     def attacking(self):
-        if (self.current_time - self.attack_timer) > 2000:
+        if (self.current_time - self.attack_timer) > pea_speed().getpadSpeed():
             self.attack_timer = self.current_time
             for zombie in self.zombie_group:
                 if self.canAttack(zombie):
@@ -700,7 +714,7 @@ class ScaredyShroom(Plant):
         self.changeFrames(self.idle_frames)
 
     def attacking(self):
-        if (self.current_time - self.shoot_timer) > 2000:
+        if (self.current_time - self.shoot_timer) > pea_speed().getpadSpeed():
             self.bullet_group.add(Bullet(self.rect.right, self.rect.y + 40, self.rect.y + 40,
                                     c.BULLET_MUSHROOM, c.BULLET_DAMAGE_NORMAL, True))
             self.shoot_timer = self.current_time
@@ -969,3 +983,16 @@ class RedWallNutBowling(Plant):
 
     def getPosition(self):
         return (self.rect.centerx, self.orig_y)
+
+# 속도 조절 함수 추가
+class pea_speed():
+    def getpadSpeed(self):
+        self.pea_basespeed = 2000 # 기본 총알 생성 속도
+        # 공격 속도 조절
+        control = tool.Control()
+        self.onoff = control.speed_switch()
+        if(self.onoff == 1):
+            self.pea_basespeed = 2000 # 2초
+        elif(self.onoff == 0):
+            self.pea_basespeed = 400 # 0.4초, 속도를 5배 올림
+        return self.pea_basespeed

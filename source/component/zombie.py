@@ -53,13 +53,13 @@ class Zombie(pg.sprite.Sprite):
         self.updateIceSlow()
         self.animation()
 
-        # # 좀비 속도 조절
-        # control = tool.Control()
-        # self.onoff = control.speed_switch()
-        # if(self.onoff == 1):
-        #     self.speed = 1
-        # elif(self.onoff == 0):
-        #     self.speed = 3 # 속도를 +2만큼 올림
+        # 좀비 속도 조절
+        control = tool.Control()
+        self.onoff = control.speed_switch()
+        if(self.onoff == 1):
+            self.speed = 1
+        elif(self.onoff == 0):
+            self.speed = 3 # 속도를 +2만큼 올림
 
     def handleState(self):
         if self.state == c.WALK:
