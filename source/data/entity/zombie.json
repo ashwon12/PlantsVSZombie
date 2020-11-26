@@ -20,6 +20,7 @@
         "NewspaperZombieNoPaperAttack":{"x":48, "width":92},
         "NewspaperZombieLostHead":{"x":44, "width":96},
         "NewspaperZombieLostHeadAttack":{"x":48, "width":92},
-        "NewspaperZombieDie":{"x":0, "width":100}
+        "NewspaperZombieDie":{"x":0, "width":100},
+        "FlyingZombie": {"x": 40,"width": 110}
     }
 }

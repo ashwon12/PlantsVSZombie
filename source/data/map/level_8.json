@@ -8,6 +8,7 @@
       {"time":70000, "map_y":3, "name":"ConeheadZombie"},
       {"time":72000, "map_y":1, "name":"FlagZombie"},
       {"time":74000, "map_y":2, "name":"ConeheadZombie"},
+      {"time":80500, "map_y":4, "name":"FlyingZombie"},
       {"time":90000, "map_y":0, "name":"FlagZombie"},
       {"time":91000, "map_y":1, "name":"ConeheadZombie"},
       {"time":92000, "map_y":2, "name":"Zombie"},
@@ -17,6 +18,7 @@
       {"time":96000, "map_y":1, "name":"ConeheadZombie"},
       {"time":100000, "map_y":1, "name":"ConeheadZombie"},
       {"time":110000, "map_y":3, "name":"ConeheadZombie"},
+      {"time":115000, "map_y":2, "name":"FlyingZombie"},
       {"time":120000, "map_y":2, "name":"Zombie"},
       {"time":130000, "map_y":1, "name":"ConeheadZombie"},
       {"time":140000, "map_y":1, "name":"FlagZombie"}

@@ -205,6 +205,8 @@ class Level(tool.State):
             self.zombie_groups[map_y].add(zombie.FlagZombie(c.ZOMBIE_START_X, y, self.head_group))
         elif name == c.NEWSPAPER_ZOMBIE:
             self.zombie_groups[map_y].add(zombie.NewspaperZombie(c.ZOMBIE_START_X, y, self.head_group))
+        elif name == c.FLYING_ZOMBIE:
+            self.zombie_groups[map_y].add(zombie.FlyingZombie(c.ZOMBIE_START_X, y, self.head_group))
 
     def canSeedPlant(self):
         x, y = pg.mouse.get_pos()

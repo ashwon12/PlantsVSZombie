@@ -145,6 +145,7 @@ BUCKETHEAD_ZOMBIE = 'BucketheadZombie' # /resources/graphics/Zombies/
 FLAG_ZOMBIE = 'FlagZombie' # /resources/graphics/Zombies/
 NEWSPAPER_ZOMBIE = 'NewspaperZombie' # /resources/graphics/Zombies/
 BOOMDIE = 'BoomDie' # /resources/graphics/Zombies/NormalZombie
+FLYING_ZOMBIE = 'FlyingZombie'
 
 LOSTHEAD_HEALTH = 5
 NORMAL_HEALTH = 10
@@ -152,6 +153,7 @@ FLAG_HEALTH = 15
 CONEHEAD_HEALTH = 20
 BUCKETHEAD_HEALTH = 30
 NEWSPAPER_HEALTH = 15
+FLYING_HEALTH = 35
 
 ATTACK_INTERVAL = 1000
 ZOMBIE_WALK_INTERVAL = 70

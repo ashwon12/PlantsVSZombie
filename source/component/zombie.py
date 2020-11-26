@@ -4,10 +4,11 @@ import pygame as pg
 from .. import tool
 from .. import constants as c
 
+
 class Zombie(pg.sprite.Sprite):
     def __init__(self, x, y, name, health, head_group=None, damage=1):
         pg.sprite.Sprite.__init__(self)
-        
+
         self.name = name
         self.frames = []
         self.frame_index = 0
@@ -18,7 +19,7 @@ class Zombie(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.centerx = x
         self.rect.bottom = y
-        
+
         self.health = health
         self.damage = damage
         self.dead = False
@@ -34,10 +35,10 @@ class Zombie(pg.sprite.Sprite):
         self.ice_slow_ratio = 1
         self.ice_slow_timer = 0
         self.hit_timer = 0
-        self.speed = 1 # 좀비 기본 속도
+        self.speed = 1  # 좀비 기본 속도
         self.freeze_timer = 0
-        self.is_hypno = False # the zombie is hypo and attack other zombies when it ate a HypnoShroom
-    
+        self.is_hypno = False  # the zombie is hypo and attack other zombies when it ate a HypnoShroom
+
     def loadFrames(self, frames, name, image_x, colorkey=c.BLACK):
         frame_list = tool.GFX[name]
         rect = frame_list[0].get_rect()
@@ -56,10 +57,10 @@ class Zombie(pg.sprite.Sprite):
         # 좀비 속도 조절
         control = tool.Control()
         self.onoff = control.speed_switch()
-        if(self.onoff == 1):
+        if (self.onoff == 1):
             self.speed = 1
-        elif(self.onoff == 0):
-            self.speed = 3 # 속도를 +2만큼 올림
+        elif (self.onoff == 0):
+            self.speed = 3  # 속도를 +2만큼 올림
 
     def handleState(self):
         if self.state == c.WALK:
@@ -89,7 +90,7 @@ class Zombie(pg.sprite.Sprite):
                 self.rect.x += self.speed
             else:
                 self.rect.x -= self.speed
-    
+
     def attacking(self):
         if self.health <= 0:
             self.setDie()
@@ -110,7 +111,7 @@ class Zombie(pg.sprite.Sprite):
         if self.prey.health <= 0:
             self.prey = None
             self.setWalk()
-    
+
     def dying(self):
         pass
 
@@ -136,7 +137,7 @@ class Zombie(pg.sprite.Sprite):
         self.frames = frames
         self.frame_num = len(self.frames)
         self.frame_index = 0
-        
+
         bottom = self.rect.bottom
         centerx = self.rect.centerx
         self.image = self.frames[self.frame_index]
@@ -161,7 +162,7 @@ class Zombie(pg.sprite.Sprite):
         self.image = self.frames[self.frame_index]
         if self.is_hypno:
             self.image = pg.transform.flip(self.image, True, False)
-        if(self.current_time - self.hit_timer) >= 200:
+        if (self.current_time - self.hit_timer) >= 200:
             self.image.set_alpha(255)
         else:
             self.image.set_alpha(192)
@@ -184,11 +185,11 @@ class Zombie(pg.sprite.Sprite):
         self.hit_timer = self.current_time
         if ice:
             self.setIceSlow()
-    
+
     def setWalk(self):
         self.state = c.WALK
         self.animate_interval = 150
-        
+
         if self.helmet:
             self.changeFrames(self.helmet_walk_frames)
         elif self.losHead:
@@ -202,19 +203,19 @@ class Zombie(pg.sprite.Sprite):
         self.state = c.ATTACK
         self.attack_timer = self.current_time
         self.animate_interval = 100
-        
+
         if self.helmet:
             self.changeFrames(self.helmet_attack_frames)
         elif self.losHead:
             self.changeFrames(self.losthead_attack_frames)
         else:
             self.changeFrames(self.attack_frames)
-    
+
     def setDie(self):
         self.state = c.DIE
         self.animate_interval = 200
         self.changeFrames(self.die_frames)
-    
+
     def setBoomDie(self):
         self.state = c.DIE
         self.animate_interval = 200
@@ -237,19 +238,21 @@ class Zombie(pg.sprite.Sprite):
         self.is_hypno = True
         self.setWalk()
 
+
 class ZombieHead(Zombie):
     def __init__(self, x, y):
         Zombie.__init__(self, x, y, c.ZOMBIE_HEAD, 0)
         self.state = c.DIE
-    
+
     def loadImages(self):
         self.die_frames = []
-        die_name =  self.name
+        die_name = self.name
         self.loadFrames(self.die_frames, die_name, 0)
         self.frames = self.die_frames
 
     def setWalk(self):
         self.animate_interval = 100
+
 
 class NormalZombie(Zombie):
     def __init__(self, x, y, head_group):
@@ -267,18 +270,19 @@ class NormalZombie(Zombie):
         attack_name = self.name + 'Attack'
         losthead_walk_name = self.name + 'LostHead'
         losthead_attack_name = self.name + 'LostHeadAttack'
-        die_name =  self.name + 'Die'
+        die_name = self.name + 'Die'
         boomdie_name = c.BOOMDIE
 
         frame_list = [self.walk_frames, self.attack_frames, self.losthead_walk_frames,
                       self.losthead_attack_frames, self.die_frames, self.boomdie_frames]
         name_list = [walk_name, attack_name, losthead_walk_name,
                      losthead_attack_name, die_name, boomdie_name]
-        
+
         for i, name in enumerate(name_list):
             self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'])
 
         self.frames = self.walk_frames
+
 
 class ConeHeadZombie(Zombie):
     def __init__(self, x, y, head_group):
@@ -294,7 +298,7 @@ class ConeHeadZombie(Zombie):
         self.losthead_attack_frames = []
         self.die_frames = []
         self.boomdie_frames = []
-        
+
         helmet_walk_name = self.name
         helmet_attack_name = self.name + 'Attack'
         walk_name = c.NORMAL_ZOMBIE
@@ -310,11 +314,12 @@ class ConeHeadZombie(Zombie):
         name_list = [helmet_walk_name, helmet_attack_name,
                      walk_name, attack_name, losthead_walk_name,
                      losthead_attack_name, die_name, boomdie_name]
-        
+
         for i, name in enumerate(name_list):
             self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'])
 
         self.frames = self.helmet_walk_frames
+
 
 class BucketHeadZombie(Zombie):
     def __init__(self, x, y, head_group):
@@ -346,16 +351,17 @@ class BucketHeadZombie(Zombie):
         name_list = [helmet_walk_name, helmet_attack_name,
                      walk_name, attack_name, losthead_walk_name,
                      losthead_attack_name, die_name, boomdie_name]
-        
+
         for i, name in enumerate(name_list):
             self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'])
 
         self.frames = self.helmet_walk_frames
 
+
 class FlagZombie(Zombie):
     def __init__(self, x, y, head_group):
         Zombie.__init__(self, x, y, c.FLAG_ZOMBIE, c.FLAG_HEALTH, head_group)
-    
+
     def loadImages(self):
         self.walk_frames = []
         self.attack_frames = []
@@ -375,11 +381,12 @@ class FlagZombie(Zombie):
                       self.losthead_attack_frames, self.die_frames, self.boomdie_frames]
         name_list = [walk_name, attack_name, losthead_walk_name,
                      losthead_attack_name, die_name, boomdie_name]
-        
+
         for i, name in enumerate(name_list):
             self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'])
 
         self.frames = self.walk_frames
+
 
 class NewspaperZombie(Zombie):
     def __init__(self, x, y, head_group):
@@ -420,3 +427,34 @@ class NewspaperZombie(Zombie):
             self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'], color)
 
         self.frames = self.helmet_walk_frames
+
+
+class FlyingZombie(Zombie):
+            def __init__(self, x, y, head_group):
+                Zombie.__init__(self, x, y, c.FLYING_ZOMBIE, c.FLYING_HEALTH, head_group)
+
+            def loadImages(self):
+                self.walk_frames = []
+                self.attack_frames = []
+                self.losthead_walk_frames = []
+                self.losthead_attack_frames = []
+                self.die_frames = []
+                self.boomdie_frames = []
+
+                walk_name = self.name
+                attack_name = c.NORMAL_ZOMBIE + 'Attack'
+                losthead_walk_name = c.NORMAL_ZOMBIE + 'LostHead'
+                losthead_attack_name = c.NORMAL_ZOMBIE + 'LostHeadAttack'
+                die_name = c.NORMAL_ZOMBIE + 'Die'
+                boomdie_name = c.BOOMDIE
+
+                frame_list = [self.walk_frames, self.attack_frames, self.losthead_walk_frames,
+                              self.losthead_attack_frames, self.die_frames, self.boomdie_frames]
+                name_list = [
+                             walk_name, attack_name, losthead_walk_name,
+                             losthead_attack_name, die_name, boomdie_name]
+
+                for i, name in enumerate(name_list):
+                    self.loadFrames(frame_list[i], name, tool.ZOMBIE_RECT[name]['x'])
+
+                self.frames = self.walk_frames
